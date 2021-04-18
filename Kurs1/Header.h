@@ -16,14 +16,6 @@ union popularityUnion
 	int peopleCount;
 };
 
-struct monument
-{
-	string name;
-	int year;
-	long cost;
-	popularityUnion popularity;
-};
-
 enum commands
 {
 	Add = 1,
@@ -35,8 +27,27 @@ enum commands
 	InsertBefore,
 	Replace,
 	Backup,
+	EditPath,
 	Exit = 0
 };
+
+enum eraEnum
+{
+	StoneAge = 1,
+	MiddleAges,
+	Modernity,
+	NotFound = -1
+};
+
+struct monument
+{
+	string name;
+	int year;
+	long cost;
+	popularityUnion popularity;
+	eraEnum era;
+};
+
 
 
 
@@ -59,7 +70,8 @@ void replace(int& N, monument** monuments, string& path);
 
 struct monument* new_monument();
 
-
+eraEnum define_era(int eraNum);
+string convert_eraEnumToStr(eraEnum era);
 
 #endif
 #pragma once

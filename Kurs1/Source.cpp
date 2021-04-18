@@ -20,6 +20,25 @@ monument* new_monument()
 	else
 		newMonument->popularity.peopleCount = atoi(temp.c_str());
 
+	cout << "Эра памятника: " << endl;
+	cout << "1. Каменный век" << endl;
+	cout << "2. Средневековье" << endl;
+	cout << "3. Современность" << endl;
+	int era;
+	cin >> era;
+	switch (era)
+	{
+	case StoneAge:
+		newMonument->era = StoneAge;
+		break;
+	case MiddleAges:
+		newMonument->era = MiddleAges;
+		break;
+	case Modernity:
+		newMonument->era = Modernity;
+		break;
+	}
+
 	return newMonument;
 }
 
@@ -36,6 +55,7 @@ void menu(int& N, monument** monuments, string& path)
 	cout << "7. Вставить перед выбранным элементом" << endl;
 	cout << "8. Заменить элемент" << endl;
 	cout << "9. Загрузить из файла" << endl;
+	cout << "10. Изменить целевой файл" << endl;
 
 	cout << "0. Выход" << endl;
 	cout << "Ваш выбор: ";
@@ -69,6 +89,9 @@ void menu(int& N, monument** monuments, string& path)
 	case Backup:
 		backup(N, monuments, path);
 		break;
+	case EditPath:
+		editPath(path);
+		break;
 	case Exit:
 		exit(1);
 		break;
@@ -80,13 +103,21 @@ void menu(int& N, monument** monuments, string& path)
 
 void backup(int& N, monument** monuments, string& path)
 {
+	/*
+	* Структура файла:
+	* Название
+	* Год
+	* Стоимость
+	* Эра (перечисление)
+	* Популярность (объединение)
+	*/
 	if (path == "_________")
 	{
 		editPath(path);
 	}
 	cout << "Загрузка из файла..." << endl;
+	int eraNum = -1;
 	N = 0;
-	string skip;
 	ifstream input;
 	string temp;
 
@@ -111,7 +142,9 @@ void backup(int& N, monument** monuments, string& path)
 				nextMonument->name = temp;
 				input >> nextMonument->year;
 				input >> nextMonument->cost;
-				getline(input, skip);
+				input >> eraNum;
+				nextMonument->era = define_era(eraNum);
+				getline(input, temp);
 				getline(input, temp);
 				if (temp == "+" || temp == "-")
 				{
@@ -147,6 +180,14 @@ void backup(int& N, monument** monuments, string& path)
 
 void save(int& N, monument** monuments, string& path)
 {
+	/*
+	* Структура файла:
+	* Название
+	* Год
+	* Стоимость
+	* Эра (перечисление)
+	* Популярность (объединение)
+	*/
 	if (path == "_________")
 	{
 		editPath(path);
@@ -161,6 +202,7 @@ void save(int& N, monument** monuments, string& path)
 			output << monuments[i]->name << endl;
 			output << monuments[i]->year << endl;
 			output << monuments[i]->cost << endl;
+			output << monuments[i]->era << endl;
 			if (i != N - 1)
 			{
 				if (monuments[i]->popularity.isPayback == '+' || monuments[i]->popularity.isPayback == '-')
@@ -200,8 +242,8 @@ void editPath(string& path)
 
 void print(int& N, monument** monuments)
 {
-	cout << "#  " << setw(30) << left << "Название" << "|" << setw(15) << "Год открытия" << "|" << setw(25) << "Стоимость содержания" << "|" << setw(25) << "Окупаемость/Кол-во людей |" << endl;
-	cout << "_________________________________|_______________|_________________________|_________________________|" << endl;
+	cout << "#  " << setw(30) << left << "Название" << "|" << setw(15) << "Год открытия" << "|" << setw(25) << "Стоимость содержания" << "|" << setw(25) << "Окупаемость/Кол-во людей |" << setw(15) << "Эра" << "|" << endl;
+	cout << "_________________________________|_______________|_________________________|_________________________|_______________|" << endl;
 	for (int i = 0; i < N; i++)
 	{
 		if (monuments[i]->popularity.isPayback == '+' || monuments[i]->popularity.isPayback == '-')
@@ -211,11 +253,11 @@ void print(int& N, monument** monuments)
 				temp = "Окупается";
 			else
 				temp = "Не окупается";
-			cout << i + 1 << ". " << setw(30) << left << monuments[i]->name << "|" << setw(15) << monuments[i]->year << "|" << setw(25) << monuments[i]->cost << "|" << setw(5) << " " << setw(20) << temp << "|" << endl;
+			cout << i + 1 << ". " << setw(30) << left << monuments[i]->name << "|" << setw(15) << monuments[i]->year << "|" << setw(25) << monuments[i]->cost << "|" << setw(5) << " " << setw(20) << temp << "|" << setw(15) << convert_eraEnumToStr(monuments[i]->era) << setw(5) << "|" << endl;
 		}
 		else
-			cout << i + 1 << ". " << setw(30) << left << monuments[i]->name << "|" << setw(15) << monuments[i]->year << "|" << setw(25) << monuments[i]->cost << "|" << setw(9) << " " << setw(16) << monuments[i]->popularity.peopleCount << "|" << endl;
-		cout << "_________________________________|_______________|_________________________|_________________________|" << endl;
+			cout << i + 1 << ". " << setw(30) << left << monuments[i]->name << "|" << setw(15) << monuments[i]->year << "|" << setw(25) << monuments[i]->cost << "|" << setw(9) << " " << setw(16) << monuments[i]->popularity.peopleCount << "|" << setw(15) << convert_eraEnumToStr(monuments[i]->era) << setw(5) << "|" << endl;
+		cout << "_________________________________|_______________|_________________________|_________________________|_______________|" << endl;
 	}
 }
 
@@ -356,3 +398,36 @@ void replace(int& N, monument** monuments, string& path)
 		save(N, monuments, path);
 }
 
+eraEnum define_era(int eraNum)
+{
+	switch (eraNum)
+	{
+	case StoneAge:
+		return StoneAge;
+	case MiddleAges:
+		return MiddleAges;
+	case Modernity:
+		return Modernity;
+	default:
+		return NotFound;
+	}
+}
+
+string convert_eraEnumToStr(eraEnum era)
+{
+	switch (era)
+	{
+	case StoneAge:
+		return "Каменный век";
+		break;
+	case MiddleAges:
+		return "Средневековье";
+		break;
+	case Modernity:
+		return "Современность";
+		break;
+	case NotFound:
+		return "Не определено";
+		break;
+	}
+}
