@@ -1,6 +1,7 @@
 #ifndef Header_H
 #define Header_H
 
+#include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -9,11 +10,18 @@
 
 using namespace std;
 
+union popularityUnion
+{
+	char isPayback;
+	int peopleCount;
+};
+
 struct monument
 {
-	string name = "None";
-	int year = -1;
-	long cost = -1;
+	string name;
+	int year;
+	long cost;
+	popularityUnion popularity;
 };
 
 enum commands
@@ -26,6 +34,7 @@ enum commands
 	InsertAfter,
 	InsertBefore,
 	Replace,
+	Backup,
 	Exit = 0
 };
 
