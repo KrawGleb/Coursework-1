@@ -2,22 +2,21 @@
 
 char path[99] = "monuments.txt";
 
-monument new_monument()
+monument* new_monument()
 {
-	monument newMonument;
+	monument* newMonument = new monument;
 	cout << "Название памятника: " << endl;
 	getchar();
-	//cin.getline(newMonument.name, 100);
-	getline(cin, newMonument.name);
+	getline(cin, newMonument->name);
 	cout << "Год открытия: " << endl;
-	cin >> newMonument.year;
+	cin >> newMonument->year;
 	cout << "Стоимость содержания: " << endl;
-	cin >> newMonument.cost;
+	cin >> newMonument->cost;
 
 	return newMonument;
 }
 
-void menu(int& N, monument* monuments)
+void menu(int& N, monument** monuments)
 {
 	int answer = 0;
 	cout << "Меню: " << endl;
@@ -66,54 +65,82 @@ void menu(int& N, monument* monuments)
 	}
 }
 
-void print(int& N, monument* monuments)
+void print(int& N, monument** monuments)
 {
 	cout << "#  " << setw(30) << left << "Название" << "|" << setw(15) << "Год открытия" << "|" << setw(25) << "Стоимость содержания" << "|" << endl;
 	cout << "_________________________________|_______________|_________________________|" << endl;
 	for (int i = 0; i < N; i++)
 	{
-		cout << i + 1 << ". " << setw(30) << left << monuments[i].name << "|" << setw(15) << monuments[i].year << "|" << setw(25) << monuments[i].cost << "|" << endl;
+		cout << i + 1 << ". " << setw(30) << left << monuments[i]->name << "|" << setw(15) << monuments[i]->year << "|" << setw(25) << monuments[i]->cost << "|" << endl;
 		cout << "_________________________________|_______________|_________________________|" << endl;
 	}
 }
 
 
-void backup(int& N, monument* monuments)
+void backup(int& N, monument** monuments)
 {
+	cout << "Загрузка из файла..." << endl;
 	N = 0;
-	ifstream input;
-	input.open(path);
 	string skip;
+	ifstream input;
+	string temp;
+
+	try
+	{
+		input.open(path);
+	}
+	catch (const exception& exc)
+	{
+		cout << "Критическая ошибка открытия файла" << endl;
+		system("pause");
+		return;
+	}
 	if (input.is_open())
 	{
 		while (!input.eof())
 		{
-			getline(input, monuments[N].name);
-			input >> monuments[N].year;
-			input >> monuments[N].cost;
+			try
+			{
+				monument* nextMonument = new monument;
+				
+				getline(input, nextMonument->name);
+				input >> nextMonument->year;
+				input >> nextMonument->cost;
+				getline(input, skip);
+				cout << nextMonument->name << endl;
+				monuments[N] = nextMonument;
+				N++;
+			}
+			catch (const exception& exc)
+			{
+				cout << "Ошибка чтения из файла" << endl;
+				cout << exc.what() << endl;
+				system("pause");
+				return;
+			}
 
-			getline(input, skip);
-			N++;
 		}
 	}
-	else 
+	else
 	{
 		cout << "Ошибка открытия файла!" << endl;
 		return;
 	}
 	input.close();
+	cout << "Загрузка завершена!" << endl;
+	system("pause");
 	return;
 }
 
-void add(int& N, monument* monuments)
+void add(int& N, monument** monuments)
 {
 	backup(N, monuments);
 	monuments[N] = new_monument();
-	N++;	
+	N++;
 	return;
 }
 
-void edit(int& N, monument* monuments)
+void edit(int& N, monument** monuments)
 {
 	print(N, monuments);
 	int index = 0;
@@ -130,14 +157,13 @@ void edit(int& N, monument* monuments)
 	{
 	case 1:
 		getchar();
-		//cin.getline(monuments[--index].name, 100);
-		getline(cin, monuments[--index].name);
+		getline(cin, monuments[--index]->name);
 		break;
 	case 2:
-		cin >> monuments[--index].year;
+		cin >> monuments[--index]->year;
 		break;
 	case 3:
-		cin >> monuments[--index].cost;
+		cin >> monuments[--index]->cost;
 		break;
 	default:
 		cout << "Ошибка изменения" << endl;
@@ -153,7 +179,7 @@ void edit(int& N, monument* monuments)
 	return;
 }
 
-void remove(int& N, monument* monuments)
+void remove(int& N, monument** monuments)
 {
 	if (N == 0)
 	{
@@ -179,7 +205,7 @@ void remove(int& N, monument* monuments)
 	return;
 }
 
-void save(int& N, monument* monuments)
+void save(int& N, monument** monuments)
 {
 	ofstream output;
 	output.open(path, ios::trunc);
@@ -187,28 +213,28 @@ void save(int& N, monument* monuments)
 	{
 		for (int i = 0; i < N; i++)
 		{
-			output << monuments[i].name << endl;
-			output << monuments[i].year << endl;
+			output << monuments[i]->name << endl;
+			output << monuments[i]->year << endl;
 			if (i != N - 1)
 			{
-				output << monuments[i].cost << endl;
+				output << monuments[i]->cost << endl;
 			}
 			else
 			{
-				output << monuments[i].cost;
+				output << monuments[i]->cost;
 			}
-			
+
 		}
 	}
 	else
 	{
 		cout << "Ошибка открытия файла!" << endl;
 	}
-	
+
 	return;
 }
 
-void insert_after(int& N, monument* monuments)
+void insert_after(int& N, monument** monuments)
 {
 	print(N, monuments);
 	int index = 0;
@@ -231,7 +257,7 @@ void insert_after(int& N, monument* monuments)
 	return;
 }
 
-void insert_before(int& N, monument* monuments)
+void insert_before(int& N, monument** monuments)
 {
 	print(N, monuments);
 	int index = 0;
@@ -254,7 +280,7 @@ void insert_before(int& N, monument* monuments)
 	return;
 }
 
-void replace(int& N, monument* monuments)
+void replace(int& N, monument** monuments)
 {
 	print(N, monuments);
 	int index = 0;

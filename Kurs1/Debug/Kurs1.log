@@ -1,4 +1,5 @@
-﻿  Kurs1.cpp
-  Source.cpp
+﻿  Source.cpp
+D:\Lessons\Курсовая\Coursework-1\Kurs1\Source.cpp(92,26): warning C4101: exc: неиспользованная локальная переменная
+  main.cpp
   Создание кода...
-  Kurs1.vcxproj -> D:\Lessons\Лабы\ОАиП\Kurs1\Debug\Kurs1.exe
+  Kurs1.vcxproj -> D:\Lessons\Курсовая\Coursework-1\Debug\Kurs1.exe
