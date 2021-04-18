@@ -39,20 +39,26 @@ enum commands
 };
 
 
-void menu(int& N, monument** monuments);
+
+// פאיכמגûי גגמה/גûגמה
+void save(int& N, monument** monuments, string& path);
+void backup(int& N, monument** monuments, string& path);
+void editPath(string& path);
+
+void menu(int& N, monument** monuments, string& path);
+
+
 void print(int& N, monument** monuments);
 void add(int& N, monument** monuments);
-void remove(int& N, monument** monuments);
-void save(int& N, monument** monuments);
-void edit(int& N, monument** monuments);
-void insert_after(int& N, monument** monuments);
-void insert_before(int& N, monument** monuments);
-void replace(int& N, monument** monuments);
-void backup(int& N, monument** monuments);
+void remove(int& N, monument** monuments, string& path);
+
+void edit(int& N, monument** monuments, string& path);
+void insert_after(int& N, monument** monuments, string& path);
+void insert_before(int& N, monument** monuments, string& path);
+void replace(int& N, monument** monuments, string& path);
+
 struct monument* new_monument();
 
-void backup(int& N, monument** monuments);
-void save(int& N, monument** monuments);
 
 
 #endif

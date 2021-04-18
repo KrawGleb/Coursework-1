@@ -2,17 +2,17 @@
 
 int main()
 {
-	char path[] = "monuments.txt";
+	string path = "_________";
+
 	const int size = 100;
 	int N = 0;
-	monument **monuments = new monument*[100];
+	monument **monuments = new monument*[size];
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	//backup(N, monuments);
 	while (true)
 	{
-		menu(N, monuments);
+		menu(N, monuments, path);
 		system("pause");
 		system("cls");
 	}
