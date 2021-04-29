@@ -1,4 +1,7 @@
-﻿  Source.cpp
-D:\Lessons\Курсовая\Coursework-1\Kurs1\Source.cpp(128,26): warning C4101: exc: неиспользованная локальная переменная
-D:\Lessons\Курсовая\Coursework-1\Kurs1\Source.cpp(433): warning C4715: convert_eraEnumToStr: значение возвращается не при всех путях выполнения
-  Kurs1.vcxproj -> D:\Lessons\Курсовая\Coursework-1\Debug\Kurs1.exe
+﻿  main.cpp
+  Source.cpp
+D:\Lessons\GitClones\Coursework-1\Kurs1\Source.cpp(129,26): warning C4101: exc: неиспользованная локальная переменная
+  Создание кода...
+D:\Lessons\GitClones\Coursework-1\Kurs1\Source.cpp(433): warning C4715: convert_eraEnumToStr: значение возвращается не при всех путях выполнения
+  LINK : не найден или не выполнена сборка D:\Lessons\GitClones\Coursework-1\Debug\Kurs1.exe при последней инкрементной компоновке; выполняется полная компоновка
+  Kurs1.vcxproj -> D:\Lessons\GitClones\Coursework-1\Debug\Kurs1.exe

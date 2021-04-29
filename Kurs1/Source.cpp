@@ -5,7 +5,8 @@ monument* new_monument()
 	monument* newMonument = new monument;
 	cout << "Название памятника: " << endl;
 	getchar();
-	getline(cin, newMonument->name);
+	cin.getline(newMonument->name, 100);
+	// getline(cin, newMonument->name);
 	cout << "Год открытия: " << endl;
 	cin >> newMonument->year;
 	cout << "Стоимость содержания: " << endl;
@@ -133,13 +134,11 @@ void backup(int& N, monument** monuments, string& path)
 	}
 	if (input.is_open())
 	{
-		while (getline(input, temp))
+		monument* nextMonument = new monument;
+		while (input.getline(nextMonument->name, 100))
 		{
 			try
 			{
-				monument* nextMonument = new monument;
-
-				nextMonument->name = temp;
 				input >> nextMonument->year;
 				input >> nextMonument->cost;
 				input >> eraNum;
@@ -155,6 +154,7 @@ void backup(int& N, monument** monuments, string& path)
 
 				monuments[N] = nextMonument;
 				N++;
+				nextMonument = new monument;
 			}
 			catch (const exception& exc)
 			{
@@ -287,7 +287,7 @@ void edit(int& N, monument** monuments, string& path)
 	{
 	case 1:
 		getchar();
-		getline(cin, monuments[--index]->name);
+		cin.getline(monuments[--index]->name, 100);
 		break;
 	case 2:
 		cin >> monuments[--index]->year;

@@ -41,7 +41,7 @@ enum eraEnum
 
 struct monument
 {
-	string name;
+	char name[100];
 	int year;
 	long cost;
 	popularityUnion popularity;
