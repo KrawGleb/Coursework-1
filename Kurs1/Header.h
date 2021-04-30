@@ -22,12 +22,12 @@ enum commands
 	Print,
 	Edit,
 	Remove,
-	Save,
 	InsertAfter,
 	InsertBefore,
 	Replace,
 	Backup,
 	EditPath,
+	Save,
 	Exit = 0
 };
 
@@ -54,12 +54,12 @@ struct monument
 // פאיכמגûי גגמה/גûגמה
 void save(int& N, monument** monuments, string& path);
 void backup(int& N, monument** monuments, string& path);
-void editPath(string& path);
+void edit_path(string& path);
 
 void menu(int& N, monument** monuments, string& path);
 
 
-void print(int& N, monument** monuments);
+void display(int& N, monument** monuments);
 void add(int& N, monument** monuments);
 void remove(int& N, monument** monuments, string& path);
 

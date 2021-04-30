@@ -1,17 +1,16 @@
-#include "Header.h"
+п»ї#include "Header.h"
 
 monument* new_monument()
 {
 	monument* newMonument = new monument;
-	cout << "Название памятника: " << endl;
+	cout << "РќР°Р·РІР°РЅРёРµ РїР°РјСЏС‚РЅРёРєР°: " << endl;
 	getchar();
 	cin.getline(newMonument->name, 100);
-	// getline(cin, newMonument->name);
-	cout << "Год открытия: " << endl;
+	cout << "Р“РѕРґ РѕС‚РєСЂС‹С‚РёСЏ: " << endl;
 	cin >> newMonument->year;
-	cout << "Стоимость содержания: " << endl;
+	cout << "РЎС‚РѕРёРјРѕСЃС‚СЊ СЃРѕРґРµСЂР¶Р°РЅРёСЏ: " << endl;
 	cin >> newMonument->cost;
-	cout << "Популярность(Количество людей или окупаемость +/-): " << endl;
+	cout << "РџРѕРїСѓР»СЏСЂРЅРѕСЃС‚СЊ(РљРѕР»РёС‡РµСЃС‚РІРѕ Р»СЋРґРµР№ РёР»Рё РѕРєСѓРїР°РµРјРѕСЃС‚СЊ +/-): " << endl;
 	string temp;
 	cin >> temp;
 	if (temp[0] == '+' || temp[0] == '-')
@@ -21,10 +20,10 @@ monument* new_monument()
 	else
 		newMonument->popularity.peopleCount = atoi(temp.c_str());
 
-	cout << "Эра памятника: " << endl;
-	cout << "1. Каменный век" << endl;
-	cout << "2. Средневековье" << endl;
-	cout << "3. Современность" << endl;
+	cout << "Р­СЂР° РїР°РјСЏС‚РЅРёРєР°: " << endl;
+	cout << "1. РљР°РјРµРЅРЅС‹Р№ РІРµРє" << endl;
+	cout << "2. РЎСЂРµРґРЅРµРІРµРєРѕРІСЊРµ" << endl;
+	cout << "3. РЎРѕРІСЂРµРјРµРЅРЅРѕСЃС‚СЊ" << endl;
 	int era;
 	cin >> era;
 	switch (era)
@@ -45,21 +44,25 @@ monument* new_monument()
 
 void menu(int& N, monument** monuments, string& path)
 {
+	HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
 	int answer = 0;
-	cout << "Меню: " << setw(70) << right << "Сейчас вы работаете с файлом:  " << path << endl;
-	cout << "1. Добавить новый памятник" << endl;
-	cout << "2. Показать весь список" << endl;
-	cout << "3. Изменить элемент" << endl;
-	cout << "4. Удалить элемент" << endl;
-	cout << "5. Сохранить изменения" << endl;
-	cout << "6. Вставить после выбранного элемента" << endl;
-	cout << "7. Вставить перед выбранным элементом" << endl;
-	cout << "8. Заменить элемент" << endl;
-	cout << "9. Загрузить из файла" << endl;
-	cout << "10. Изменить целевой файл" << endl;
+	cout << "РњРµРЅСЋ: " << setw(70) << right << "РЎРµР№С‡Р°СЃ РІС‹ СЂР°Р±РѕС‚Р°РµС‚Рµ СЃ С„Р°Р№Р»РѕРј:  " << path << endl;
+	cout << "1. Р”РѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№ РїР°РјСЏС‚РЅРёРє " << endl;
+	cout << "2. РџРѕРєР°Р·Р°С‚СЊ РІРµСЃСЊ СЃРїРёСЃРѕРє" << endl;
+	cout << "3. РР·РјРµРЅРёС‚СЊ СЌР»РµРјРµРЅС‚" << endl;
+	cout << "4. РЈРґР°Р»РёС‚СЊ СЌР»РµРјРµРЅС‚" << endl;
+	cout << "5. Р’СЃС‚Р°РІРёС‚СЊ РїРѕСЃР»Рµ РІС‹Р±СЂР°РЅРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°" << endl;
+	cout << "6. Р’СЃС‚Р°РІРёС‚СЊ РїРµСЂРµРґ РІС‹Р±СЂР°РЅРЅС‹Рј СЌР»РµРјРµРЅС‚РѕРј" << endl;
+	cout << "7. Р—Р°РјРµРЅРёС‚СЊ СЌР»РµРјРµРЅС‚" << endl;
+	cout << "8. Р—Р°РіСЂСѓР·РёС‚СЊ РёР· С„Р°Р№Р»Р°" << endl;
+	cout << "9. РР·РјРµРЅРёС‚СЊ С†РµР»РµРІРѕР№ С„Р°Р№Р»" << endl;
+	SetConsoleTextAttribute(color_changer, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+	cout << "10. РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ" << endl;
 
-	cout << "0. Выход" << endl;
-	cout << "Ваш выбор: ";
+	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
+	cout << "0. Р’С‹С…РѕРґ" << endl;
+	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	cout << "Р’Р°С€ РІС‹Р±РѕСЂ: ";
 	cin >> answer;
 	switch (answer)
 	{
@@ -67,7 +70,7 @@ void menu(int& N, monument** monuments, string& path)
 		add(N, monuments);
 		break;
 	case Print:
-		print(N, monuments);
+		display(N, monuments);
 		break;
 	case Edit:
 		edit(N, monuments, path);
@@ -91,7 +94,7 @@ void menu(int& N, monument** monuments, string& path)
 		backup(N, monuments, path);
 		break;
 	case EditPath:
-		editPath(path);
+		edit_path(path);
 		break;
 	case Exit:
 		exit(1);
@@ -105,18 +108,18 @@ void menu(int& N, monument** monuments, string& path)
 void backup(int& N, monument** monuments, string& path)
 {
 	/*
-	* Структура файла:
-	* Название
-	* Год
-	* Стоимость
-	* Эра (перечисление)
-	* Популярность (объединение)
+	* РЎС‚СЂСѓРєС‚СѓСЂР° С„Р°Р№Р»Р°:
+	* РќР°Р·РІР°РЅРёРµ
+	* Р“РѕРґ
+	* РЎС‚РѕРёРјРѕСЃС‚СЊ
+	* Р­СЂР° (РїРµСЂРµС‡РёСЃР»РµРЅРёРµ)
+	* РџРѕРїСѓР»СЏСЂРЅРѕСЃС‚СЊ (РѕР±СЉРµРґРёРЅРµРЅРёРµ)
 	*/
 	if (path == "_________")
 	{
-		editPath(path);
+		edit_path(path);
 	}
-	cout << "Загрузка из файла..." << endl;
+	cout << "Р—Р°РіСЂСѓР·РєР° РёР· С„Р°Р№Р»Р°..." << endl;
 	int eraNum = -1;
 	N = 0;
 	ifstream input;
@@ -128,7 +131,7 @@ void backup(int& N, monument** monuments, string& path)
 	}
 	catch (const exception& exc)
 	{
-		cout << "Критическая ошибка открытия файла" << endl;
+		cout << "РљСЂРёС‚РёС‡РµСЃРєР°СЏ РѕС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°" << endl;
 		system("pause");
 		return;
 	}
@@ -158,7 +161,7 @@ void backup(int& N, monument** monuments, string& path)
 			}
 			catch (const exception& exc)
 			{
-				cout << "Ошибка чтения из файла" << endl;
+				cout << "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ РёР· С„Р°Р№Р»Р°" << endl;
 				cout << exc.what() << endl;
 				system("pause");
 				return;
@@ -170,29 +173,29 @@ void backup(int& N, monument** monuments, string& path)
 	{
 		ofstream file(path);
 		file.close();
-		cout << "Такого файла не существовало. Загрузка не завершена \nФайл был создан" << endl;
+		cout << "РўР°РєРѕРіРѕ С„Р°Р№Р»Р° РЅРµ СЃСѓС‰РµСЃС‚РІРѕРІР°Р»Рѕ. Р—Р°РіСЂСѓР·РєР° РЅРµ Р·Р°РІРµСЂС€РµРЅР° \nР¤Р°Р№Р» Р±С‹Р» СЃРѕР·РґР°РЅ" << endl;
 		return;
 	}
 	input.close();
-	cout << "Загрузка завершена!" << endl;
+	cout << "Р—Р°РіСЂСѓР·РєР° Р·Р°РІРµСЂС€РµРЅР°!" << endl;
 	return;
 }
 
 void save(int& N, monument** monuments, string& path)
 {
 	/*
-	* Структура файла:
-	* Название
-	* Год
-	* Стоимость
-	* Эра (перечисление)
-	* Популярность (объединение)
+	* РЎС‚СЂСѓРєС‚СѓСЂР° С„Р°Р№Р»Р°:
+	* РќР°Р·РІР°РЅРёРµ
+	* Р“РѕРґ
+	* РЎС‚РѕРёРјРѕСЃС‚СЊ
+	* Р­СЂР° (РїРµСЂРµС‡РёСЃР»РµРЅРёРµ)
+	* РџРѕРїСѓР»СЏСЂРЅРѕСЃС‚СЊ (РѕР±СЉРµРґРёРЅРµРЅРёРµ)
 	*/
 	if (path == "_________")
 	{
-		editPath(path);
+		edit_path(path);
 	}
-	cout << "Сохранение..." << endl;
+	cout << "РЎРѕС…СЂР°РЅРµРЅРёРµ..." << endl;
 	ofstream output;
 	output.open(path, ios::trunc);
 	if (output.is_open())
@@ -221,17 +224,17 @@ void save(int& N, monument** monuments, string& path)
 	}
 	else
 	{
-		cout << "Ошибка открытия файла!" << endl;
+		cout << "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°!" << endl;
 	}
 	output.close();
-	cout << "Сохранено!" << endl;
+	cout << "РЎРѕС…СЂР°РЅРµРЅРѕ!" << endl;
 	return;
 }
 
-void editPath(string& path)
+void edit_path(string& path)
 {
 	getchar();
-	cout << "Введите имя файла(без .txt): " << endl;
+	cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р°(Р±РµР· .txt): " << endl;
 	string temp;
 	getline(cin, temp);
 	temp += ".txt";
@@ -240,9 +243,9 @@ void editPath(string& path)
 	return;
 }
 
-void print(int& N, monument** monuments)
+void display(int& N, monument** monuments)
 {
-	cout << "#  " << setw(30) << left << "Название" << "|" << setw(15) << "Год открытия" << "|" << setw(25) << "Стоимость содержания" << "|" << setw(25) << "Окупаемость/Кол-во людей |" << setw(15) << "Эра" << "|" << endl;
+	cout << "#  " << setw(30) << left << "РќР°Р·РІР°РЅРёРµ" << "|" << setw(15) << "Р“РѕРґ РѕС‚РєСЂС‹С‚РёСЏ" << "|" << setw(25) << "РЎС‚РѕРёРјРѕСЃС‚СЊ СЃРѕРґРµСЂР¶Р°РЅРёСЏ" << "|" << setw(25) << "РћРєСѓРїР°РµРјРѕСЃС‚СЊ/РљРѕР»-РІРѕ Р»СЋРґРµР№ |" << setw(15) << "Р­СЂР°" << "|" << endl;
 	cout << "_________________________________|_______________|_________________________|_________________________|_______________|" << endl;
 	for (int i = 0; i < N; i++)
 	{
@@ -250,9 +253,9 @@ void print(int& N, monument** monuments)
 		{
 			string temp;
 			if (monuments[i]->popularity.isPayback == '+')
-				temp = "Окупается";
+				temp = "РћРєСѓРїР°РµС‚СЃСЏ";
 			else
-				temp = "Не окупается";
+				temp = "РќРµ РѕРєСѓРїР°РµС‚СЃСЏ";
 			cout << i + 1 << ". " << setw(30) << left << monuments[i]->name << "|" << setw(15) << monuments[i]->year << "|" << setw(25) << monuments[i]->cost << "|" << setw(5) << " " << setw(20) << temp << "|" << setw(15) << convert_eraEnumToStr(monuments[i]->era) << setw(5) << "|" << endl;
 		}
 		else
@@ -272,17 +275,22 @@ void add(int& N, monument** monuments)
 
 void edit(int& N, monument** monuments, string& path)
 {
-	print(N, monuments);
+	display(N, monuments);
 	int index = 0;
-	cout << "Введите номер памятника: " << endl;
+	int era;
+	string temp;
+	cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РїР°РјСЏС‚РЅРёРєР°: " << endl;
 	cin >> index;
-	cout << "Что нужно изменить: " << endl;
-	cout << "1. Название" << endl;
-	cout << "2. Год открытия" << endl;
-	cout << "3. Стоимость содержания" << endl;
+	cout << "Р§С‚Рѕ РЅСѓР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ: " << endl;
+	cout << "1. РќР°Р·РІР°РЅРёРµ" << endl;
+	cout << "2. Р“РѕРґ РѕС‚РєСЂС‹С‚РёСЏ" << endl;
+	cout << "3. РЎС‚РѕРёРјРѕСЃС‚СЊ СЃРѕРґРµСЂР¶Р°РЅРёСЏ" << endl;
+	cout << "4. РћРєСѓРїР°РµРјРѕСЃС‚СЊ/РљРѕР»-РІРѕ Р»СЋРґРµР№" << endl;
+	cout << "5. Р­СЂР°" << endl;
+	cout << "6. РџРѕРјРµРЅСЏС‚СЊ РїРѕР»РЅРѕСЃС‚СЊСЋ" << endl;
 	int answer = 0;
 	cin >> answer;
-	cout << "Новое значение: " << endl;
+	cout << "РќРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ: " << endl;
 	switch (answer)
 	{
 	case 1:
@@ -295,15 +303,45 @@ void edit(int& N, monument** monuments, string& path)
 	case 3:
 		cin >> monuments[--index]->cost;
 		break;
+	case 4:
+		cin >> temp;
+		if (temp[0] == '+' || temp[0] == '-')
+		{
+			monuments[--index]->popularity.isPayback = temp[0];
+		}
+		else
+			monuments[--index]->popularity.peopleCount = atoi(temp.c_str());
+		break;
+	case 5:
+		cout << "1. РљР°РјРµРЅРЅС‹Р№ РІРµРє" << endl;
+		cout << "2. РЎСЂРµРґРЅРµРІРµРєРѕРІСЊРµ" << endl;
+		cout << "3. РЎРѕРІСЂРµРјРµРЅРЅРѕСЃС‚СЊ" << endl;
+		cin >> era;
+		switch (era)
+		{
+		case StoneAge:
+			monuments[--index]->era = StoneAge;
+			break;
+		case MiddleAges:
+			monuments[--index]->era = MiddleAges;
+			break;
+		case Modernity:
+			monuments[--index]->era = Modernity;
+			break;
+		}
+		break;
+	case 6:
+		monuments[--index] = new_monument();
+		break;
 	default:
-		cout << "Ошибка изменения" << endl;
+		cout << "РћС€РёР±РєР° РёР·РјРµРЅРµРЅРёСЏ" << endl;
 		break;
 	}
 
-	cout << "Сохранить изменения?\n(Д)а / (Н)ет" << endl;
+	cout << "РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ?\n(Р”)Р° / (Рќ)РµС‚" << endl;
 	getchar();
 	char anws = getchar();
-	if (anws == 'Д')
+	if (anws == 'Р”')
 		save(N, monuments, path);
 
 	return;
@@ -313,23 +351,23 @@ void remove(int& N, monument** monuments, string& path)
 {
 	if (N == 0)
 	{
-		cout << "Список пуст" << endl;
+		cout << "РЎРїРёСЃРѕРє РїСѓСЃС‚" << endl;
 		system("pause");
 		return;
 	}
-	print(N, monuments);
+	display(N, monuments);
 	int index = 0;
-	cout << "Введите номер памятника: " << endl;
+	cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РїР°РјСЏС‚РЅРёРєР°: " << endl;
 	cin >> index;
 	for (int i = --index; i < --N; i++)
 	{
 		monuments[i] = monuments[i + 1];
 	}
 
-	cout << "Сохранить изменения?\n(Д)а / (Н)ет" << endl;
+	cout << "РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ?\n(Р”)Р° / (Рќ)РµС‚" << endl;
 	getchar();
 	char anws = getchar();
-	if (anws == 'Д')
+	if (anws == 'Р”')
 		save(N, monuments, path);
 
 	return;
@@ -338,9 +376,9 @@ void remove(int& N, monument** monuments, string& path)
 
 void insert_after(int& N, monument** monuments, string& path)
 {
-	print(N, monuments);
+	display(N, monuments);
 	int index = 0;
-	cout << "Введите номер памятника: " << endl;
+	cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РїР°РјСЏС‚РЅРёРєР°: " << endl;
 	cin >> index;
 
 	for (int i = N + 1; i > index; i--)
@@ -350,10 +388,10 @@ void insert_after(int& N, monument** monuments, string& path)
 	monuments[index] = new_monument();
 	N++;
 
-	cout << "Сохранить изменения?\n(Д)а / (Н)ет" << endl;
+	cout << "РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ?\n(Р”)Р° / (Рќ)РµС‚" << endl;
 	getchar();
 	char anws = getchar();
-	if (anws == 'Д')
+	if (anws == 'Р”')
 		save(N, monuments, path);
 
 	return;
@@ -361,9 +399,9 @@ void insert_after(int& N, monument** monuments, string& path)
 
 void insert_before(int& N, monument** monuments, string& path)
 {
-	print(N, monuments);
+	display(N, monuments);
 	int index = 0;
-	cout << "Введите номер памятника: " << endl;
+	cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РїР°РјСЏС‚РЅРёРєР°: " << endl;
 	cin >> index;
 
 	for (int i = N + 1; i >= index; i--)
@@ -373,10 +411,10 @@ void insert_before(int& N, monument** monuments, string& path)
 	monuments[--index] = new_monument();
 	N++;
 
-	cout << "Сохранить изменения?\n(Д)а / (Н)ет" << endl;
+	cout << "РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ?\n(Р”)Р° / (Рќ)РµС‚" << endl;
 	getchar();
 	char anws = getchar();
-	if (anws == 'Д')
+	if (anws == 'Р”')
 		save(N, monuments, path);
 
 	return;
@@ -384,17 +422,17 @@ void insert_before(int& N, monument** monuments, string& path)
 
 void replace(int& N, monument** monuments, string& path)
 {
-	print(N, monuments);
+	display(N, monuments);
 	int index = 0;
-	cout << "Введите номер памятника: " << endl;
+	cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РїР°РјСЏС‚РЅРёРєР°: " << endl;
 	cin >> index;
 
 	monuments[--index] = new_monument();
 
-	cout << "Сохранить изменения?\n(Д)а / (Н)ет" << endl;
+	cout << "РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ?\n(Р”)Р° / (Рќ)РµС‚" << endl;
 	getchar();
 	char anws = getchar();
-	if (anws == 'Д')
+	if (anws == 'Р”')
 		save(N, monuments, path);
 }
 
@@ -418,16 +456,16 @@ string convert_eraEnumToStr(eraEnum era)
 	switch (era)
 	{
 	case StoneAge:
-		return "Каменный век";
+		return "РљР°РјРµРЅРЅС‹Р№ РІРµРє";
 		break;
 	case MiddleAges:
-		return "Средневековье";
+		return "РЎСЂРµРґРЅРµРІРµРєРѕРІСЊРµ";
 		break;
 	case Modernity:
-		return "Современность";
+		return "РЎРѕРІСЂРµРјРµРЅРЅРѕСЃС‚СЊ";
 		break;
 	case NotFound:
-		return "Не определено";
+		return "РќРµ РѕРїСЂРµРґРµР»РµРЅРѕ";
 		break;
 	}
 }
