@@ -2,30 +2,65 @@
 
 monument* new_monument()
 {
+	HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
 	monument* newMonument = new monument;
+
 	cout << "Название памятника: " << endl;
 	getchar();
+	SetConsoleTextAttribute(color_changer, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 	cin.getline(newMonument->name, 100);
+	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+
 	cout << "Год открытия: " << endl;
-	cin >> newMonument->year;
+	newMonument->year = read_integer();
+
 	cout << "Стоимость содержания: " << endl;
-	cin >> newMonument->cost;
+	newMonument->cost = read_integer();
+
 	cout << "Популярность(Количество людей или окупаемость +/-): " << endl;
 	string temp;
+readPopularity:
+	SetConsoleTextAttribute(color_changer, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 	cin >> temp;
+	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 	if (temp[0] == '+' || temp[0] == '-')
 	{
 		newMonument->popularity.isPayback = temp[0];
 	}
 	else
+	{
+		for (int i = 0; i < temp.length(); i++)
+		{
+			if ((unsigned int)temp[i] - 48 < 0 || (unsigned int)temp[i] - 48 > 9)
+			{
+				HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
+				SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
+				cout << "Неверное представление данных" << endl;
+				SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+				cout << "Попробуйте снова: " << endl;
+				goto readPopularity;
+			}
+		}
 		newMonument->popularity.peopleCount = atoi(temp.c_str());
+
+	}
 
 	cout << "Эра памятника: " << endl;
 	cout << "1. Каменный век" << endl;
 	cout << "2. Средневековье" << endl;
 	cout << "3. Современность" << endl;
 	int era;
-	cin >> era;
+readEra:
+	era = read_integer();
+	if (era < 1 || era > 3)
+	{
+
+		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
+		cout << "Неверное представление данных" << endl;
+		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		cout << "Попробуйте ещё раз: " << endl;
+		goto readEra;
+	}
 	switch (era)
 	{
 	case StoneAge:
@@ -62,12 +97,23 @@ void menu(int& N, monument** monuments, string& path)
 	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
 	cout << "0. Выход" << endl;
 	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+
 	cout << "Ваш выбор: ";
-	cin >> answer;
+	answer = read_integer();
+	
+	if (answer < 0 || answer > 10)
+	{
+		HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
+		cout << "Такой команды нет" << endl;
+		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	}
+
 	switch (answer)
 	{
+
 	case Add:
-		add(N, monuments);
+		add(N, monuments, path);
 		break;
 	case Print:
 		display(N, monuments);
@@ -265,16 +311,24 @@ void display(int& N, monument** monuments)
 }
 
 
-void add(int& N, monument** monuments)
+void add(int& N, monument** monuments, string& path)
 {
 	// backup(N, monuments);
 	monuments[N] = new_monument();
 	N++;
+
+	cout << "Сохранить изменения?\n(Д)а / (Н)ет" << endl;
+	getchar();
+	char anws = getchar();
+	if (anws == 'Д')
+		save(N, monuments, path);
+
 	return;
 }
 
 void edit(int& N, monument** monuments, string& path)
 {
+	HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
 	display(N, monuments);
 	int index = 0;
 	int era;
@@ -289,7 +343,18 @@ void edit(int& N, monument** monuments, string& path)
 	cout << "5. Эра" << endl;
 	cout << "6. Поменять полностью" << endl;
 	int answer = 0;
-	cin >> answer;
+readAnswer:
+	answer = read_integer();
+	if (answer < 1 || answer > 7)
+	{
+		HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
+		cout << "Такой опции нет" << endl;
+		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		cout << "Попробуйте ещё раз: " << endl;
+		goto readAnswer;
+	}
+
 	cout << "Новое значение: " << endl;
 	switch (answer)
 	{
@@ -298,25 +363,52 @@ void edit(int& N, monument** monuments, string& path)
 		cin.getline(monuments[--index]->name, 100);
 		break;
 	case 2:
-		cin >> monuments[--index]->year;
+		monuments[--index]->year = read_integer();
 		break;
 	case 3:
-		cin >> monuments[--index]->cost;
+		monuments[--index]->cost = read_integer();
 		break;
 	case 4:
+	readPopularity:
+		SetConsoleTextAttribute(color_changer, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 		cin >> temp;
+		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 		if (temp[0] == '+' || temp[0] == '-')
 		{
 			monuments[--index]->popularity.isPayback = temp[0];
 		}
 		else
+		{
+			for (int i = 0; i < temp.length(); i++)
+			{
+				if ((unsigned int)temp[i] - 48 < 0 || (unsigned int)temp[i] - 48 > 9)
+				{
+					HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
+					SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
+					cout << "Неверное представление данных" << endl;
+					SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+					cout << "Попробуйте снова: " << endl;
+					goto readPopularity;
+				}
+			}
 			monuments[--index]->popularity.peopleCount = atoi(temp.c_str());
+		}
 		break;
 	case 5:
 		cout << "1. Каменный век" << endl;
 		cout << "2. Средневековье" << endl;
 		cout << "3. Современность" << endl;
-		cin >> era;
+	readEra:
+		era = read_integer();
+		if (era < 1 || era > 3)
+		{
+
+			SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
+			cout << "Неверное представление данных" << endl;
+			SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+			cout << "Попробуйте ещё раз: " << endl;
+			goto readEra;
+		}
 		switch (era)
 		{
 		case StoneAge:
@@ -376,11 +468,22 @@ void remove(int& N, monument** monuments, string& path)
 
 void insert_after(int& N, monument** monuments, string& path)
 {
+	if (N == 0)
+	{
+		cout << "Список пуст" << endl;
+		return;
+	}
 	display(N, monuments);
 	int index = 0;
 	cout << "Введите номер памятника: " << endl;
-	cin >> index;
-
+readIndex:
+	index = read_integer();
+	if (index < 1 || index > N)
+	{
+		cout << "Неверный номер" << endl;
+		cout << "Попробуйте снова: " << endl;
+		goto readIndex;
+	}
 	for (int i = N + 1; i > index; i--)
 	{
 		monuments[i] = monuments[i - 1];
@@ -399,10 +502,22 @@ void insert_after(int& N, monument** monuments, string& path)
 
 void insert_before(int& N, monument** monuments, string& path)
 {
+	if (N == 0)
+	{
+		cout << "Список пуст" << endl;
+		return;
+	}
 	display(N, monuments);
 	int index = 0;
 	cout << "Введите номер памятника: " << endl;
-	cin >> index;
+readIndex:
+	index = read_integer();
+	if (index < 1 || index > N)
+	{
+		cout << "Неверный номер" << endl;
+		cout << "Попробуйте снова: " << endl;
+		goto readIndex;
+	}
 
 	for (int i = N + 1; i >= index; i--)
 	{
@@ -468,4 +583,27 @@ string convert_eraEnumToStr(eraEnum era)
 		return "Не определено";
 		break;
 	}
+}
+
+int read_integer()
+{
+	string temp;
+	HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
+read:
+	SetConsoleTextAttribute(color_changer, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+	cin >> temp;
+
+	for (int i = 0; i < temp.length(); i++)
+	{
+		if ((unsigned int)temp[i] - 48 < 0 || (unsigned int)temp[i] - 48 > 9)
+		{
+			HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
+			SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
+			cout << "Неверный формат" << endl;
+			SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+			goto read;
+		}
+	}
+	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	return atoi(temp.c_str());
 }

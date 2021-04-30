@@ -60,7 +60,7 @@ void menu(int& N, monument** monuments, string& path);
 
 
 void display(int& N, monument** monuments);
-void add(int& N, monument** monuments);
+void add(int& N, monument** monuments, string& path);
 void remove(int& N, monument** monuments, string& path);
 
 void edit(int& N, monument** monuments, string& path);
@@ -72,6 +72,8 @@ struct monument* new_monument();
 
 eraEnum define_era(int eraNum);
 string convert_eraEnumToStr(eraEnum era);
+
+int read_integer();
 
 #endif
 #pragma once
