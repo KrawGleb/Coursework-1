@@ -8,7 +8,7 @@ monument* new_monument()
 	cout << "Название памятника: " << endl;
 	getchar();
 	SetConsoleTextAttribute(color_changer, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-	cin.getline(newMonument->name, 30);
+	cin.getline(newMonument->name, 100);
 	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
 	cout << "Год открытия: " << endl;
@@ -181,6 +181,7 @@ void backup(int& N, monument** monuments, string& path)
 		system("pause");
 		return;
 	}
+
 	if (input.is_open())
 	{
 		monument* nextMonument = new monument;
@@ -204,6 +205,7 @@ void backup(int& N, monument** monuments, string& path)
 				monuments[N] = nextMonument;
 				N++;
 				nextMonument = new monument;
+
 			}
 			catch (const exception& exc)
 			{
@@ -296,6 +298,13 @@ void display(int& N, monument** monuments)
 	cout << "| #  |" << setw(31) << left << " Название" << "|" << setw(15) << " Год открытия" << "|" << setw(25) << " Стоимость содержания" << "|" << setw(25) << " Окупаемость/Кол-во людей |" << setw(15) << " Эра" << "|" << endl;
 	cout << "+----+-------------------------------+---------------+-------------------------+--------------------------+---------------+" << endl;
 
+	if (N == 0)
+	{
+		cout << "| " << setw(51) << " " << setw(68) << "Тут пока пусто" << " |" << endl;
+		cout << "+----+-------------------------------+---------------+-------------------------+--------------------------+---------------+" << endl;
+		return;
+	}
+
 	// Содержание таблицы
 	for (int i = 0; i < N; i++)
 	{
@@ -336,6 +345,12 @@ void add(int& N, monument** monuments, string& path)
 
 void edit(int& N, monument** monuments, string& path)
 {
+	if (N == 0)
+	{
+		cout << "Список пуст" << endl;
+		return;
+	}
+
 	HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
 	display(N, monuments);
 	int index = 0;
@@ -439,8 +454,8 @@ readAnswer:
 	}
 
 	cout << "Сохранить изменения?\n(Д)а / (Н)ет" << endl;
-	getchar();
 	char anws = getchar();
+	cout << "Значение: " << anws << endl;
 	if (anws == 'Д')
 		save(N, monuments, path);
 
@@ -452,17 +467,28 @@ void remove(int& N, monument** monuments, string& path)
 	if (N == 0)
 	{
 		cout << "Список пуст" << endl;
-		system("pause");
 		return;
 	}
 	display(N, monuments);
 	int index = 0;
 	cout << "Введите номер памятника: " << endl;
-	cin >> index;
-	for (int i = --index; i < --N; i++)
+
+readIndex:
+	index = read_integer();
+	if (index < 1 || index > N)
+	{
+		cout << "Нет записи под таким номером" << endl;
+		goto readIndex;
+	}
+
+	cout << "Удаление..." << endl;
+	for (int i = --index; i < N; i++)
 	{
 		monuments[i] = monuments[i + 1];
 	}
+
+	cout << "Запись под номером " << index + 1 << " удалена" << endl;
+	N--;
 
 	cout << "Сохранить изменения?\n(Д)а / (Н)ет" << endl;
 	getchar();
