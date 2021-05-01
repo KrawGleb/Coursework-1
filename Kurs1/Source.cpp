@@ -8,7 +8,7 @@ monument* new_monument()
 	cout << "Название памятника: " << endl;
 	getchar();
 	SetConsoleTextAttribute(color_changer, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-	cin.getline(newMonument->name, 100);
+	cin.getline(newMonument->name, 30);
 	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
 	cout << "Год открытия: " << endl;
@@ -100,7 +100,7 @@ void menu(int& N, monument** monuments, string& path)
 
 	cout << "Ваш выбор: ";
 	answer = read_integer();
-	
+
 	if (answer < 0 || answer > 10)
 	{
 		HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -291,8 +291,12 @@ void edit_path(string& path)
 
 void display(int& N, monument** monuments)
 {
-	cout << "#  " << setw(30) << left << "Название" << "|" << setw(15) << "Год открытия" << "|" << setw(25) << "Стоимость содержания" << "|" << setw(25) << "Окупаемость/Кол-во людей |" << setw(15) << "Эра" << "|" << endl;
-	cout << "_________________________________|_______________|_________________________|_________________________|_______________|" << endl;
+	// Шапка таблицы
+	cout << "+----+-------------------------------+---------------+-------------------------+--------------------------+---------------+" << endl;
+	cout << "| #  |" << setw(31) << left << " Название" << "|" << setw(15) << " Год открытия" << "|" << setw(25) << " Стоимость содержания" << "|" << setw(25) << " Окупаемость/Кол-во людей |" << setw(15) << " Эра" << "|" << endl;
+	cout << "+----+-------------------------------+---------------+-------------------------+--------------------------+---------------+" << endl;
+
+	// Содержание таблицы
 	for (int i = 0; i < N; i++)
 	{
 		if (monuments[i]->popularity.isPayback == '+' || monuments[i]->popularity.isPayback == '-')
@@ -302,12 +306,16 @@ void display(int& N, monument** monuments)
 				temp = "Окупается";
 			else
 				temp = "Не окупается";
-			cout << i + 1 << ". " << setw(30) << left << monuments[i]->name << "|" << setw(15) << monuments[i]->year << "|" << setw(25) << monuments[i]->cost << "|" << setw(5) << " " << setw(20) << temp << "|" << setw(15) << convert_eraEnumToStr(monuments[i]->era) << setw(5) << "|" << endl;
+			cout << "| " << setw(3) << i + 1 << "| " << setw(30) << left << monuments[i]->name << "| " << setw(14) << monuments[i]->year << "| " << setw(24) << monuments[i]->cost << "| " << " " << setw(24) << temp << "| " << setw(14) << convert_eraEnumToStr(monuments[i]->era) << "|" << endl;
 		}
 		else
-			cout << i + 1 << ". " << setw(30) << left << monuments[i]->name << "|" << setw(15) << monuments[i]->year << "|" << setw(25) << monuments[i]->cost << "|" << setw(9) << " " << setw(16) << monuments[i]->popularity.peopleCount << "|" << setw(15) << convert_eraEnumToStr(monuments[i]->era) << setw(5) << "|" << endl;
-		cout << "_________________________________|_______________|_________________________|_________________________|_______________|" << endl;
+			cout << "| " << setw(3) << i + 1 << "| " << setw(30) << left << monuments[i]->name << "| " << setw(14) << monuments[i]->year << "| " << setw(24) << monuments[i]->cost << "| " << " " << setw(24) << monuments[i]->popularity.peopleCount << "| " << setw(14) << convert_eraEnumToStr(monuments[i]->era) << "|" << endl;
+
 	}
+
+	// Конец таблицы
+	cout << "+----+-------------------------------+---------------+-------------------------+--------------------------+---------------+" << endl;
+	return;
 }
 
 
