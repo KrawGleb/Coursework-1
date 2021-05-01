@@ -455,7 +455,6 @@ readAnswer:
 
 	cout << "Сохранить изменения?\n(Д)а / (Н)ет" << endl;
 	char anws = getchar();
-	cout << "Значение: " << anws << endl;
 	if (anws == 'Д')
 		save(N, monuments, path);
 
