@@ -33,10 +33,7 @@ readPopularity:
 		{
 			if ((unsigned int)temp[i] - 48 < 0 || (unsigned int)temp[i] - 48 > 9)
 			{
-				HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
-				SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
-				cout << "Неверное представление данных" << endl;
-				SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+				red("Неверное представление данных");
 				cout << "Попробуйте снова: " << endl;
 				goto readPopularity;
 			}
@@ -55,10 +52,8 @@ readEra:
 	if (era < 1 || era > 3)
 	{
 
-		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
-		cout << "Неверное представление данных" << endl;
-		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-		cout << "Попробуйте ещё раз: " << endl;
+		red("Неверное представление данных");
+		cout << "Попробуйте снова: " << endl;
 		goto readEra;
 	}
 	switch (era)
@@ -91,22 +86,15 @@ void menu(int& N, monument** monuments, string& path)
 	cout << "7. Заменить элемент" << endl;
 	cout << "8. Загрузить из файла" << endl;
 	cout << "9. Изменить целевой файл" << endl;
-	SetConsoleTextAttribute(color_changer, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-	cout << "10. Сохранить изменения" << endl;
-
-	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
-	cout << "0. Выход" << endl;
-	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	green("10. Сохранить изменения");
+	red("0. Выход");
 
 	cout << "Ваш выбор: ";
 	answer = read_integer();
 
 	if (answer < 0 || answer > 10)
 	{
-		HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
-		cout << "Такой команды нет" << endl;
-		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		red("Такой команды нет");
 	}
 
 	switch (answer)
@@ -177,7 +165,7 @@ void backup(int& N, monument** monuments, string& path)
 	}
 	catch (const exception& exc)
 	{
-		cout << "Критическая ошибка открытия файла" << endl;
+		red("Критическая ошибка открытия файла");
 		system("pause");
 		return;
 	}
@@ -370,10 +358,7 @@ readAnswer:
 	answer = read_integer();
 	if (answer < 1 || answer > 7)
 	{
-		HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
-		cout << "Такой опции нет" << endl;
-		SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		red("Такой опции нет");
 		cout << "Попробуйте ещё раз: " << endl;
 		goto readAnswer;
 	}
@@ -406,10 +391,7 @@ readAnswer:
 			{
 				if ((unsigned int)temp[i] - 48 < 0 || (unsigned int)temp[i] - 48 > 9)
 				{
-					HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
-					SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
-					cout << "Неверное представление данных" << endl;
-					SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+					red("Неверное представление данных");
 					cout << "Попробуйте снова: " << endl;
 					goto readPopularity;
 				}
@@ -426,10 +408,8 @@ readAnswer:
 		if (era < 1 || era > 3)
 		{
 
-			SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
-			cout << "Неверное представление данных" << endl;
-			SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-			cout << "Попробуйте ещё раз: " << endl;
+			red("Неверное представление данных");
+			cout << "Попробуйте снова: " << endl;
 			goto readEra;
 		}
 		switch (era)
@@ -625,18 +605,42 @@ int read_integer()
 read:
 	SetConsoleTextAttribute(color_changer, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 	cin >> temp;
+	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
 	for (int i = 0; i < temp.length(); i++)
 	{
 		if ((unsigned int)temp[i] - 48 < 0 || (unsigned int)temp[i] - 48 > 9)
 		{
-			HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
-			SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
-			cout << "Неверный формат" << endl;
-			SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+			red("Неверный формат");
 			goto read;
 		}
 	}
-	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 	return atoi(temp.c_str());
+}
+
+void red(string text)
+{
+	HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_INTENSITY);
+	cout << text << endl;
+	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	return;
+}
+
+void blue(string text)
+{
+	HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(color_changer, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+	cout << text << endl;
+	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	return;
+}
+
+void green(string text)
+{
+	HANDLE color_changer = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(color_changer, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+	cout << text << endl;
+	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	return;
 }

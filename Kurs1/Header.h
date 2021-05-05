@@ -1,12 +1,12 @@
 #ifndef Header_H
 #define Header_H
 
+#include <string>
+#include <fstream>
+#include <iomanip>
 #include <stdlib.h>
 #include <iostream>
-#include <fstream>
-#include <string>
 #include <Windows.h>
-#include <iomanip>
 
 using namespace std;
 
@@ -74,6 +74,10 @@ eraEnum define_era(int eraNum);
 string convert_eraEnumToStr(eraEnum era);
 
 int read_integer();
+
+void red(string text);
+void blue(string text);
+void green(string text);
 
 #endif
 #pragma once
