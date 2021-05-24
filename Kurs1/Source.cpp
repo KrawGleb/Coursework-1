@@ -7,10 +7,8 @@ monument* new_monument()
 
 	cout << "Название памятника: " << endl;
 	getchar();
-	SetConsoleTextAttribute(color_changer, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 	cin.getline(newMonument->name, 100);
-	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-
+	
 	cout << "Год открытия: " << endl;
 	newMonument->year = read_integer();
 
@@ -20,9 +18,7 @@ monument* new_monument()
 	cout << "Популярность(Количество людей или окупаемость +/-): " << endl;
 	string temp;
 readPopularity:
-	SetConsoleTextAttribute(color_changer, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 	cin >> temp;
-	SetConsoleTextAttribute(color_changer, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 	if (temp[0] == '+' || temp[0] == '-')
 	{
 		newMonument->popularity.isPayback = temp[0];
@@ -51,7 +47,6 @@ readEra:
 	era = read_integer();
 	if (era < 1 || era > 3)
 	{
-
 		red("Неверное представление данных");
 		cout << "Попробуйте снова: " << endl;
 		goto readEra;
@@ -92,7 +87,7 @@ void menu(int& N, monument** monuments, string& path)
 	cout << "Ваш выбор: ";
 	answer = read_integer();
 
-	if (answer < 0 || answer > 10)
+	if (answer < 1 || answer > 10)
 	{
 		red("Такой команды нет");
 	}
@@ -434,6 +429,7 @@ readAnswer:
 	}
 
 	cout << "Сохранить изменения?\n(Д)а / (Н)ет" << endl;
+	getchar();
 	char anws = getchar();
 	if (anws == 'Д')
 		save(N, monuments, path);
@@ -550,10 +546,22 @@ readIndex:
 
 void replace(int& N, monument** monuments, string& path)
 {
+	if (N == 0)
+	{
+		cout << "Список пуст" << endl;
+		return;
+	}
 	display(N, monuments);
 	int index = 0;
 	cout << "Введите номер памятника: " << endl;
-	cin >> index;
+	
+readIndex:
+	index = read_integer();
+	if (index < 1 || index > N)
+	{
+		red("Неверный индекс\nПопытайтесь снова: ");
+		goto readIndex;
+	}
 
 	monuments[--index] = new_monument();
 
